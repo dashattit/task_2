@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Сайт{% endblock%}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     {% load bootstrap4 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -28,7 +29,7 @@
 <main class="container">
     {% if user.is_authenticated %}
         {% if request.resolver_match.view_name == 'index' %}
-        <h1>Добро пожаловать {{ user.username }}</h1>
+        <h1>Добро пожаловать {{ user.username }}!</h1>
         {% endif %}
     {% else %}
         {% block index %}

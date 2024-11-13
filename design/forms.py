@@ -1,5 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from .models import AddUser
 from django.contrib.auth import authenticate
 
@@ -8,38 +7,26 @@ from django.contrib.auth import authenticate
 class AddUserCreatingForm(forms.ModelForm):
     username = forms.CharField(
         max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': 'Введите имя пользователя'})
+        widget=forms.TextInput()
     )
     email = forms.CharField(
         max_length=100,
-        widget=forms.EmailInput(attrs={'placeholder': 'Введите email'})
+        widget=forms.EmailInput()
     )
     first_name = forms.CharField(
         max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': 'Введите имя'})
+        widget=forms.TextInput()
     )
     last_name = forms.CharField(
         max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': 'Введите фамилию'})
+        widget=forms.TextInput()
     )
     patronym = forms.CharField(
         max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': 'Введите отчество'})
+        widget=forms.TextInput()
     )
     password = forms.CharField(widget=forms.PasswordInput)
     password_confirm = forms.CharField(widget=forms.PasswordInput)
-
-    def clean_username(self):
-        username = self.cleaned_data.get("username")
-        if AddUser.objects.filter(username=username).exists:
-            raise ValidationError("Такое имя пользователя занято")
-        return username
-
-    def clean_email(self):
-        email = self.cleaned_data.get("username")
-        if AddUser.objects.filter(email=email).exists:
-            raise ValidationError("Такое имя пользователя занято")
-        return email
 
     def clean(self):
         cleaned_data = super().clean()
@@ -55,7 +42,6 @@ class AddUserCreatingForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-
 
     class Meta:
         model = AddUser

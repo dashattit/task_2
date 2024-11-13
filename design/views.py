@@ -31,7 +31,7 @@ class Login(FormView):
             return super().form_valid(form)
         else:
             form.add_error(None, 'Неправильное имя пользователя')
-            return self.form_invalid()
+            return self.form_invalid(form)
 
 class UserProfileListView(generic.ListView):
     model = AddUser
