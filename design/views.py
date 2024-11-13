@@ -1,5 +1,7 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.template.context_processors import request
 from django.urls import reverse_lazy
 from .forms import AddUserCreatingForm, AddUserLoginForm
 from .models import AddUser
@@ -27,15 +29,20 @@ class Login(FormView):
         user = authenticate(self.request, username=username, password=password)
 
         if user is not None:
+            # Если аутентификация успешна, выполняем вход
             login(self.request, user)
-            return super().form_valid(form)
+            return super().form_valid(form)  # Возвращаем HttpResponseRedirect на success_url
         else:
-            form.add_error(None, 'Неправильное имя пользователя')
-            return self.form_invalid(form)
+            # Если аутентификация не удалась, добавляем ошибку и возвращаем форму
+            form.add_error(None, "Неверное имя пользователя или пароль.")
+            return self.form_invalid(form)  # Возвращаем форму с ошибками
+
 
 class UserProfileListView(generic.ListView):
     model = AddUser
     template_name = 'catalog/profile.html'
 
-
+def logout_user(request):
+    logout(request)
+    return redirect('catalog:index')
 # Create your views here.

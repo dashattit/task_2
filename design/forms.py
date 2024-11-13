@@ -1,32 +1,49 @@
 from django import forms
+from pyexpat.errors import messages
+
 from .models import AddUser
+from django.core.validators import RegexValidator, EmailValidator
 from django.contrib.auth import authenticate
 
 
 
 class AddUserCreatingForm(forms.ModelForm):
     username = forms.CharField(
+        label="Имя пользователя",
         max_length=100,
         widget=forms.TextInput()
     )
     email = forms.CharField(
+        label="Почта",
         max_length=100,
-        widget=forms.EmailInput()
+        widget=forms.EmailInput(),
+        validators=[
+            EmailValidator(message="Почта должна содержать обязательный символ @"),
+
+        ]
     )
     first_name = forms.CharField(
+        label="Имя",
         max_length=100,
-        widget=forms.TextInput()
+        widget=forms.TextInput(),
+        validators=[
+            RegexValidator(
+                message="Имя должно содержать только кириллические буквы, дефис и пробелы",
+            )
+        ]
     )
     last_name = forms.CharField(
+        label="Фамилия",
         max_length=100,
         widget=forms.TextInput()
     )
     patronym = forms.CharField(
+        label="Отчество",
         max_length=100,
         widget=forms.TextInput()
     )
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
+    password_confirm = forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -50,7 +67,8 @@ class AddUserCreatingForm(forms.ModelForm):
 
 class AddUserLoginForm(forms.Form):
     username = forms.CharField(
+        label="Логин",
         max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': 'Введите имя пользователя'})
+        widget=forms.TextInput()
     )
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
