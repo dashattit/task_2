@@ -2,10 +2,10 @@
 {% block title %}Регистрация{% endblock%}
 
 {% block register %}
-<h1>Регистрация</h1>
+<h1>Регистрация</h1><br>
 <form class="register_1" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Зарегистрироваться</button>
+    <br><button class="btn btn-primary" type="submit">Зарегистрироваться</button>
 </form>
 {% endblock%}

@@ -1,11 +1,20 @@
 header{
+    height: 60px;
     margin-bottom: 80px;
 }
 
-nav.content{
-    height: 70px;
+.warning{
+    background-color: #2b4bca;
 }
 
-.profile{
-    margin-top: 40px;
+a{
+    text-decoration: none !important;
+    color: azure !important;
+    font-size: 20px;
+}
+
+form > p > input{
+    border: 2px solid #2b4bca;
+    border-radius: 5px;
+    width: 250px;
 }

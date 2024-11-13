@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
+
 
 class AddUser(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
@@ -9,6 +10,18 @@ class AddUser(AbstractUser):
     last_name = models.CharField(max_length=100, blank=True)
     password = models.CharField(max_length=100, blank=True)
     password_confirm = models.CharField(max_length=100, blank=True)
+
+    groups = models.ManyToManyField(
+        Group, related_query_name='adduser',
+        blank=True, help_text='The groups this user belongs to.',
+        verbose_name='groups'
+    )
+
+    user_permissions = models.ManyToManyField(
+        Permission,
+        blank=True, help_text='Specific permissions for this user.',
+        verbose_name='user permissions'
+    )
 
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'

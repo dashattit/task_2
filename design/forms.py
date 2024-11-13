@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 
 
 
-class AddUserCreatingForm:
+class AddUserCreatingForm(forms.ModelForm):
     username = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={'placeholder': 'Введите имя пользователя'})
@@ -41,12 +41,6 @@ class AddUserCreatingForm:
             raise ValidationError("Такое имя пользователя занято")
         return email
 
-    def clean_email(self):
-        email = self.cleaned_data.get("username")
-        if AddUser.objects.filter(email=email).exists:
-            raise ValidationError("Такое имя пользователя занято")
-        return email
-
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
@@ -68,7 +62,7 @@ class AddUserCreatingForm:
         fields = ("username", "email", "first_name", "last_name", "patronym")
 
 
-class AddUserLoginForm:
+class AddUserLoginForm(forms.Form):
     username = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={'placeholder': 'Введите имя пользователя'})
