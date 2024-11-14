@@ -42,3 +42,16 @@ def logout_user(request):
     logout(request)
     return render(request, 'catalog/logout.html')
 
+
+def create_request(request):
+    if request.method == 'POST':
+        form = DesignRequestForm(request.POST, request.FILES)
+        if form.is_valid():
+            request = form.save(commit=False)
+            request.user = request.user
+             request.save()
+            return redirect('catalog:profile')
+    else:
+        form = DesignRequestForm()
+
+    return render(request, 'catalog/create_request.html', {'form': form})
