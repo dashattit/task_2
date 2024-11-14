@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.template.context_processors import request
 from django.urls import reverse_lazy
 from .forms import AddUserCreatingForm, AddUserLoginForm
@@ -10,7 +9,6 @@ from django.views.generic.edit import FormView
 
 def index(request):
     return render(request, 'index.html')
-
 
 class Register(generic.CreateView):
     template_name = 'catalog/register.html'
@@ -29,11 +27,9 @@ class Login(FormView):
         user = authenticate(self.request, username=username, password=password)
 
         if user is not None:
-            # Если аутентификация успешна, выполняем вход
             login(self.request, user)
-            return super().form_valid(form)  # Возвращаем HttpResponseRedirect на success_url
+            return super().form_valid(form)
         else:
-            # Если аутентификация не удалась, добавляем ошибку и возвращаем форму
             form.add_error(None, "Неверное имя пользователя или пароль.")
             return self.form_invalid(form)  # Возвращаем форму с ошибками
 
@@ -44,5 +40,5 @@ class UserProfileListView(generic.ListView):
 
 def logout_user(request):
     logout(request)
-    return redirect('catalog:index')
-# Create your views here.
+    return render(request, 'catalog/logout.html')
+

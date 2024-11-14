@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# AUTH_USER_MODEL = 'catalog.AddUser'
+AUTH_USER_MODEL = 'design.AddUser'
 
 # Application definition
 

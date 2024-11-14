@@ -1,5 +1,4 @@
 from django import forms
-from pyexpat.errors import messages
 
 from .models import AddUser
 from django.core.validators import RegexValidator, EmailValidator
@@ -19,7 +18,6 @@ class AddUserCreatingForm(forms.ModelForm):
         widget=forms.EmailInput(),
         validators=[
             EmailValidator(message="Почта должна содержать обязательный символ @"),
-
         ]
     )
     first_name = forms.CharField(
@@ -35,12 +33,22 @@ class AddUserCreatingForm(forms.ModelForm):
     last_name = forms.CharField(
         label="Фамилия",
         max_length=100,
-        widget=forms.TextInput()
+        widget=forms.TextInput(),
+        validators=[
+            RegexValidator(
+                message="Фамилия должна содержать только кириллические буквы, дефис и пробелы",
+            )
+        ]
     )
     patronym = forms.CharField(
         label="Отчество",
         max_length=100,
-        widget=forms.TextInput()
+        widget=forms.TextInput(),
+        validators=[
+            RegexValidator(
+                message="Отчество должно содержать только кириллические буквы, дефис и пробелы",
+            )
+        ]
     )
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
     password_confirm = forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput)
@@ -59,6 +67,12 @@ class AddUserCreatingForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+    consent = forms.BooleanField(
+        required=True,
+        label='Согласие на обработку персональных данных',
+        widget=forms.CheckboxInput()
+    )
 
     class Meta:
         model = AddUser
