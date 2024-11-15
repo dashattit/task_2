@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
-from django.template.context_processors import request
 from django.urls import reverse_lazy
 from .forms import AddUserCreatingForm, AddUserLoginForm
 from .models import AddUser
@@ -43,15 +42,3 @@ def logout_user(request):
     return render(request, 'catalog/logout.html')
 
 
-def create_request(request):
-    if request.method == 'POST':
-        form = DesignRequestForm(request.POST, request.FILES)
-        if form.is_valid():
-            request = form.save(commit=False)
-            request.user = request.user
-             request.save()
-            return redirect('catalog:profile')
-    else:
-        form = DesignRequestForm()
-
-    return render(request, 'catalog/create_request.html', {'form': form})

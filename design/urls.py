@@ -10,7 +10,5 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('profile/', UserProfileListView.as_view(), name='profile'),
 ]
-urlpatterns += [
-    path('', views.create_request, name='create_request')
-]
+
 

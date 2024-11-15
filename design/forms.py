@@ -1,9 +1,6 @@
 from django import forms
-
 from .models import AddUser
 from django.core.validators import RegexValidator, EmailValidator
-from django.contrib.auth import authenticate
-
 
 
 class AddUserCreatingForm(forms.ModelForm):
@@ -88,23 +85,5 @@ class AddUserLoginForm(forms.Form):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
 
-class DesignRequest:
-    pass
 
 
-class DesignRequestForm(forms.ModelForm):
-    class Meta:
-        model = DesignRequest
-        fields = ['title', 'description', 'category', 'image']
-        labels = {
-            'title': 'Название заявки',
-            'description': 'Описание заявки',
-            'category': 'Категория',
-            'image': 'Фото заявки',
-        }
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Введите описание'}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
-            'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-        }
