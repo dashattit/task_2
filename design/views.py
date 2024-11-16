@@ -41,4 +41,12 @@ def logout_user(request):
     logout(request)
     return render(request, 'catalog/logout.html')
 
-
+def create_user(request):
+    if request.method == 'POST':
+        form = AddUserCreatingForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return render(request, 'catalog/login.html')
+    else:
+        form = AddUserCreatingForm()
+        return render(request, 'catalog/login.html', {'form': form})

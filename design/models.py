@@ -9,6 +9,7 @@ class AddUser(AbstractUser):
     last_name = models.CharField(max_length=100, blank=True)
     password = models.CharField(max_length=100, blank=True)
     password_confirm = models.CharField(max_length=100, blank=True)
+    document = models.FileField(upload_to='documents/', blank=True, null=True)
 
     groups = models.ManyToManyField(
         Group, related_query_name='adduser',

@@ -65,15 +65,14 @@ class AddUserCreatingForm(forms.ModelForm):
             user.save()
         return user
 
-    consent = forms.BooleanField(
+    document = forms.FileField(
         required=True,
         label='Согласие на обработку персональных данных',
-        widget=forms.CheckboxInput()
     )
 
     class Meta:
         model = AddUser
-        fields = ("username", "email", "first_name", "last_name", "patronym")
+        fields = ("username", "email", "first_name", "last_name", "patronym", "password", "password_confirm", "document")
 
 
 class AddUserLoginForm(forms.Form):
